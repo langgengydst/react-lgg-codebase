@@ -1,11 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import Providers from "./providers";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <div>
-      <h1>Hello, React!</h1>
-    </div>
+    <Providers />
   </StrictMode>,
 );
