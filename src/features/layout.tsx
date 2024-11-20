@@ -34,8 +34,10 @@ export default function MainLayout({ children }: { children: ReactNode }) {
           Ini header
         </header>
         <main>
-          <ScrollArea className="h-[calc(100dvh-var(--header-height))] p-6 ">
+          <ScrollArea className="h-[calc(100dvh-var(--header-height))] px-6">
+            <div className="h-6" />
             {children}
+            <div className="h-6" />
           </ScrollArea>
         </main>
       </div>
@@ -90,7 +92,9 @@ function SideBar() {
                     <SidebarMenuItem key={route.id}>
                       <SidebarMenuButton asChild>
                         <NavLink
-                          to={route.children?.[0].path as string}
+                          to={
+                            route.path ?? (route.children?.[0].path as string)
+                          }
                           className="aria-[current=page]:bg-[#E81255]"
                         >
                           {route.handle.title}

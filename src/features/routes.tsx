@@ -7,6 +7,7 @@ import {
 import { routeDashboard } from "./dashboard";
 import MainLayout from "./layout";
 import { routeLogin } from "./login";
+import { routePokemon } from "./pokemon";
 
 const rootLoader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
@@ -29,7 +30,7 @@ export const routes = createBrowserRouter([
         <Outlet />
       </MainLayout>
     ),
-    children: [...routeDashboard],
+    children: [...routeDashboard, ...routePokemon],
   },
   ...routeLogin,
 ]);
