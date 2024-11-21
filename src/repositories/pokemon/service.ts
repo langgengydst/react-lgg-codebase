@@ -2,8 +2,9 @@ import { queryOptions } from "@tanstack/react-query";
 import { PokemonFilter } from "./model";
 import { ServiceQueryArgs, ServiceQueryFn } from "@/types/service";
 import { BasicApi } from "@/lib/services";
+import env from "@/lib/env";
 
-const api = new BasicApi("https://pokeapi.co/api/v2");
+const api = new BasicApi(env.BLAST_BASE_URL);
 
 const pokemonService = {
   list: async (filter: PokemonFilter) =>

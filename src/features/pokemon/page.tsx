@@ -3,9 +3,9 @@ import { QueryClient } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { Await, LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import {
-  ListPokemon,
   PokemonFilter,
   pokemonOptions,
+  PokemonResponse,
 } from "@/repositories/pokemon";
 
 export const pokemonLoader = (
@@ -13,15 +13,15 @@ export const pokemonLoader = (
   { request }: Pick<LoaderFunctionArgs, "request">,
 ) => {
   const url = new URL(request.url);
-  const filter = extractSearchParam<ListPokemon>(url.searchParams);
-  const data: Promise<ListPokemon> = queryClient.ensureQueryData(
+  const filter = extractSearchParam<PokemonFilter>(url.searchParams);
+  const data: Promise<PokemonResponse> = queryClient.ensureQueryData(
     pokemonOptions("list", { limit: 2000, offset: 0 }),
   );
   return { data, filter };
 };
 
 type LoaderData = {
-  data: ListPokemon;
+  data: Promise<PokemonResponse>;
   filter: PokemonFilter;
 };
 
@@ -31,10 +31,7 @@ export function PokemonPage() {
   return (
     <div>
       <Suspense fallback={<p>Loading pokemon data</p>}>
-        <Await
-          resolve={data}
-          errorElement={<p>Error loading package location!</p>}
-        >
+        <Await resolve={data} errorElement={<p>Error fetch pokemon data!</p>}>
           {(data) => <p>List pokemon: {JSON.stringify(data, null, 2)}</p>}
         </Await>
       </Suspense>

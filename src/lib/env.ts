@@ -1,12 +1,9 @@
-import { config } from "dotenv";
-
 import { ZodError, z } from "zod";
 
 const EnvSchema = z.object({
   NODE_ENV: z.string().default("development"),
+  BLAST_BASE_URL: z.string().default("http://localhost:3000"),
 });
-
-config();
 
 try {
   EnvSchema.parse(import.meta.env);
