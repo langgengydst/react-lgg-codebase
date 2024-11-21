@@ -6,8 +6,8 @@ export type ListPokemon = {
 }[];
 
 export type PokemonFilter = {
-  limit: string | number;
-  offset: string | number;
+  limit?: string | number;
+  offset?: string | number;
 };
 
 export type PokemonResponse = {

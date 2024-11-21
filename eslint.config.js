@@ -9,6 +9,14 @@ export default [
     files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"],
     rules: {
       "no-console": ["error", { allow: ["warn", "error"] }],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
   },
   { languageOptions: { globals: globals.browser } },

@@ -34,10 +34,8 @@ export default function MainLayout({ children }: { children: ReactNode }) {
           Ini header
         </header>
         <main>
-          <ScrollArea className="h-[calc(100dvh-var(--header-height))] px-6">
-            <div className="h-6" />
-            {children}
-            <div className="h-6" />
+          <ScrollArea className="h-[calc(100dvh-var(--header-height))]">
+            <div className="m-6">{children}</div>
           </ScrollArea>
         </main>
       </div>
