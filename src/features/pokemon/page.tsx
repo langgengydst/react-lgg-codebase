@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Icon } from "@/components/ui/icon";
 
 export const pokemonLoader = (
   queryClient: QueryClient,
@@ -55,7 +56,7 @@ export function PokemonPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <section>
+      <section className="flex gap-4">
         <Select onValueChange={(val) => handleFilterChange("limit", val)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Limit" />
@@ -68,6 +69,8 @@ export function PokemonPage() {
             <SelectItem value="2000">2000</SelectItem>
           </SelectContent>
         </Select>
+
+        <Icon name="chevron-left-pipe" />
       </section>
 
       <Suspense fallback={<p>Loading pokemon data</p>}>
