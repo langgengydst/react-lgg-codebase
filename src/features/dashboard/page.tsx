@@ -8,7 +8,7 @@ import {
   LoaderFunctionArgs,
   useLoaderData,
   useLocation,
-} from "react-router-dom";
+} from "react-router";
 import { MemberFilter } from "@/repositories/members";
 
 export const dashboardLoader = (

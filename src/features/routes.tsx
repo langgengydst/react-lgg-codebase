@@ -3,7 +3,7 @@ import {
   LoaderFunction,
   Outlet,
   redirect,
-} from "react-router-dom";
+} from "react-router";
 import { routeDashboard } from "./dashboard";
 import MainLayout from "./layout";
 import { routeLogin } from "./login";

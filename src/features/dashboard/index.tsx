@@ -1,4 +1,4 @@
-import { defer, RouteObject } from "react-router-dom";
+import { RouteObject } from "react-router";
 import DashboardLayout from "./layout";
 import { queryClient } from "@/providers/query-provider";
 
@@ -24,7 +24,7 @@ export const routeDashboard = [
               const { data, filter } = dashboardLoader(queryClient, {
                 request,
               });
-              return defer({ data, filter });
+              return { data, filter };
             },
             Component: DashboardPage,
           };

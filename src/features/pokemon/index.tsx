@@ -1,4 +1,4 @@
-import { defer, RouteObject } from "react-router-dom";
+import { RouteObject } from "react-router";
 import { queryClient } from "@/providers/query-provider";
 
 export const routePokemon = [
@@ -16,7 +16,7 @@ export const routePokemon = [
           const { data, filter } = pokemonLoader(queryClient, {
             request,
           });
-          return defer({ data, filter });
+          return { data, filter };
         },
         Component: PokemonPage,
       };
