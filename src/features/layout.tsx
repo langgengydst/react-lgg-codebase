@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { routes } from "./routes";
+import { BaseRouteObject } from "@/types/router";
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (
@@ -44,9 +45,8 @@ export default function MainLayout({ children }: { children: ReactNode }) {
 }
 
 function SideBar() {
-  const listRoutes = routes.routes.find(
-    (route) => route.id === "root",
-  )?.children;
+  const listRoutes = routes.routes.find((route) => route.id === "root")
+    ?.children as BaseRouteObject[];
 
   return (
     <Sidebar collapsible="icon">
@@ -59,31 +59,36 @@ function SideBar() {
             <SidebarMenu>
               <Accordion type="single" collapsible className="border-b-0">
                 {listRoutes?.map((route) =>
-                  route.children && route.children.length > 1 ? (
+                  route.children &&
+                  route.children.filter((route) => !!route.handle?.subMenu)
+                    .length > 1 ? (
                     <AccordionItem
                       key={route.id as string}
                       className="border-b-0"
                       value={route.id as string}
                     >
                       <AccordionTrigger className="px-2">
-                        {route.handle.title}
+                        {route.handle?.menu}
                       </AccordionTrigger>
                       <AccordionContent className="pb-0">
-                        {route.children.map((child) => (
-                          <SidebarMenuSub key={child.id}>
-                            <SidebarMenuSubItem>
-                              <SidebarMenuSubButton asChild>
-                                <NavLink
-                                  className="aria-[current=page]:bg-[#E81255]"
-                                  key={child.id}
-                                  to={child.path as string}
-                                >
-                                  {child.handle.title}
-                                </NavLink>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          </SidebarMenuSub>
-                        ))}
+                        {route.children.map((child) => {
+                          const relativePath = `${route.path}/${child.path}`;
+                          return (
+                            <SidebarMenuSub key={child.id}>
+                              <SidebarMenuSubItem>
+                                <SidebarMenuSubButton asChild>
+                                  <NavLink
+                                    className="aria-[current=page]:bg-[#E81255]"
+                                    key={child.id}
+                                    to={relativePath}
+                                  >
+                                    {child.handle?.subMenu}
+                                  </NavLink>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            </SidebarMenuSub>
+                          );
+                        })}
                       </AccordionContent>
                     </AccordionItem>
                   ) : (
@@ -95,7 +100,7 @@ function SideBar() {
                           }
                           className="aria-[current=page]:bg-[#E81255]"
                         >
-                          {route.handle.title}
+                          {route.handle?.menu}
                         </NavLink>
                       </SidebarMenuButton>
                     </SidebarMenuItem>

@@ -13,6 +13,8 @@ const api = new BasicApi(env.BLAST_BASE_URL);
 const pokemonService = {
   list: async (config: RequestConfig<PokemonFilter>) =>
     api.get("/pokemon", config),
+  detail: async ({ id, ...config }: RequestConfig) =>
+    api.get(`/pokemon/${id}`, config),
 };
 
 type ServiceType = typeof pokemonService;

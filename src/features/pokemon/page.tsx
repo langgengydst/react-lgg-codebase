@@ -4,22 +4,16 @@ import { Suspense } from "react";
 import {
   Await,
   LoaderFunctionArgs,
+  NavLink,
   useLoaderData,
-  useSearchParams,
 } from "react-router";
 import {
   PokemonFilter,
   pokemonOptions,
   PokemonResponse,
 } from "@/repositories/pokemon";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Icon } from "@/components/ui/icon";
+import { Filter } from "./fragment/filter";
+import { DefaultFilter } from "@/types/service";
 
 export const pokemonLoader = (
   queryClient: QueryClient,
@@ -37,41 +31,28 @@ export const pokemonLoader = (
 
 type LoaderData = {
   data: Promise<PokemonResponse>;
-  filter: PokemonFilter;
+  filter: DefaultFilter;
 };
 
 export function PokemonPage() {
   const { data } = useLoaderData() as LoaderData;
-  const [_, setSearchParams] = useSearchParams();
 
-  const handleFilterChange = (
-    key: keyof PokemonFilter,
-    filter: string | number,
-  ) => {
-    setSearchParams((params) => ({
-      ...params,
-      [key]: filter,
-    }));
-  };
+  const dummyData = Array.from({ length: 100 }, () => ({}));
 
   return (
     <div className="flex flex-col gap-4">
-      <section className="flex gap-4">
-        <Select onValueChange={(val) => handleFilterChange("limit", val)}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Limit" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="10">10</SelectItem>
-            <SelectItem value="100">100</SelectItem>
-            <SelectItem value="200">200</SelectItem>
-            <SelectItem value="300">300</SelectItem>
-            <SelectItem value="2000">2000</SelectItem>
-          </SelectContent>
-        </Select>
+      <Filter />
 
-        <Icon name="chevron-left-pipe" />
-      </section>
+      <div className="flex gap-2 flex-wrap">
+        {dummyData.map((_, i) => (
+          <NavLink
+            to={`${i}`}
+            className="p-4 rounded-md bg-pink-200 hover:cursor-pointer w-28 "
+          >
+            <p key={i}>Data {i}</p>
+          </NavLink>
+        ))}
+      </div>
 
       <Suspense fallback={<p>Loading pokemon data</p>}>
         <Await resolve={data} errorElement={<p>Error fetch pokemon data!</p>}>

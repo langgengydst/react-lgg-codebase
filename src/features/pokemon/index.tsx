@@ -1,25 +1,47 @@
-import { RouteObject } from "react-router";
+import { Outlet } from "react-router";
 import { queryClient } from "@/providers/query-provider";
+import { BaseRouteObject } from "@/types/router";
 
 export const routePokemon = [
   {
     id: "pokemon",
     path: "pokemon",
     handle: {
-      title: "Pokemon",
+      menu: "Pokemon",
     },
-    async lazy() {
-      const { PokemonPage, pokemonLoader } = await import("./page");
+    element: <Outlet />,
+    children: [
+      {
+        index: true,
+        async lazy() {
+          const { PokemonPage, pokemonLoader } = await import("./page");
 
-      return {
-        loader: async ({ request }) => {
-          const { data, filter } = pokemonLoader(queryClient, {
-            request,
-          });
-          return { data, filter };
+          return {
+            loader: async ({ request }) =>
+              pokemonLoader(queryClient, {
+                request,
+              }),
+            Component: PokemonPage,
+          };
         },
-        Component: PokemonPage,
-      };
-    },
+      },
+      {
+        path: ":id",
+        async lazy() {
+          const { PokemonDetailPage, pokemonLoader } = await import(
+            "./detail/page"
+          );
+
+          return {
+            loader: async ({ request, params }) =>
+              pokemonLoader(queryClient, {
+                request,
+                params,
+              }),
+            Component: PokemonDetailPage,
+          };
+        },
+      },
+    ],
   },
-] satisfies RouteObject[];
+] satisfies BaseRouteObject[];

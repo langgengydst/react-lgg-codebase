@@ -13,7 +13,7 @@ const rootLoader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const isAuthorized = true;
   if (url.pathname === "/" && isAuthorized) {
-    return redirect("/dashboard");
+    return redirect("/dashboard/admin-dashboard");
   } else if (url.pathname === "/" && !isAuthorized) {
     return redirect("/login");
   }
@@ -25,6 +25,7 @@ export const routes = createBrowserRouter([
     id: "root",
     path: "/",
     loader: rootLoader,
+    HydrateFallback: () => <div>Loading...</div>,
     element: (
       <MainLayout>
         <Outlet />

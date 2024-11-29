@@ -1,39 +1,56 @@
-import { RouteObject } from "react-router";
+import { Outlet } from "react-router";
 import DashboardLayout from "./layout";
 import { queryClient } from "@/providers/query-provider";
+import { BaseRouteObject } from "@/types/router";
 
 export const routeDashboard = [
   {
     id: "dashboard",
+    path: "dashboard",
     handle: {
-      title: "Dashboard",
+      menu: "Dashboard",
     },
-    Component: DashboardLayout,
+    element: <Outlet />,
     children: [
       {
-        index: true,
-        path: "dashboard",
+        path: "admin-dashboard",
         handle: {
-          title: "Dashboard",
+          subMenu: "Admin Dashboard",
         },
-        async lazy() {
-          const { DashboardPage, dashboardLoader } = await import("./page");
+        Component: DashboardLayout,
+        children: [
+          {
+            index: true,
+            async lazy() {
+              const { DashboardPage, dashboardLoader } = await import("./page");
 
-          return {
-            loader: async ({ request }) => {
-              const { data, filter } = dashboardLoader(queryClient, {
-                request,
-              });
-              return { data, filter };
+              return {
+                loader: async ({ request }) => {
+                  const { data, filter } = dashboardLoader(queryClient, {
+                    request,
+                  });
+                  return { data, filter };
+                },
+                Component: DashboardPage,
+              };
             },
-            Component: DashboardPage,
-          };
-        },
+          },
+          {
+            path: ":id",
+            async lazy() {
+              const { DashboardDetailPage } = await import("./detail/page");
+
+              return {
+                Component: DashboardDetailPage,
+              };
+            },
+          },
+        ],
       },
       {
-        path: "tes",
+        path: "member-dashboard",
         handle: {
-          title: "Tes",
+          subMenu: "Member Dashboard",
         },
         async lazy() {
           const { DashboardPage, dashboardLoader } = await import("./page");
@@ -51,4 +68,4 @@ export const routeDashboard = [
       },
     ],
   },
-] satisfies RouteObject[];
+] satisfies BaseRouteObject[];
