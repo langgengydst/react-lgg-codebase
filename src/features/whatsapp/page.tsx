@@ -1,32 +1,6 @@
-import { memberOptions } from "@/repositories/whatsapp/service";
-import { extractSearchParam } from "@/lib/search-params";
-import { QueryClient } from "@tanstack/react-query";
-import { Suspense } from "react";
-import {
-  Await,
-  Link,
-  LoaderFunctionArgs,
-  NavLink,
-  useLoaderData,
-  useLocation,
-} from "react-router";
-import { WhatsappFilter } from "@/repositories/whatsapp";
-
-export const whatsappLoader = (
-  queryClient: QueryClient,
-  { request }: Pick<LoaderFunctionArgs, "request">,
-) => {
-  const url = new URL(request.url);
-  const filter = extractSearchParam<WhatsappFilter>(url.searchParams);
-  const data = queryClient.ensureQueryData(memberOptions("list", filter));
-  return { data, filter };
-};
+import { Link, NavLink, useLocation } from "react-router";
 
 export function WhatsappPage() {
-  const data = useLoaderData() as {
-    data: unknown;
-    filter: WhatsappFilter;
-  };
   const path = useLocation();
 
   const dummyData = Array.from({ length: 100 }, () => ({}));
@@ -51,17 +25,6 @@ export function WhatsappPage() {
           </NavLink>
         ))}
       </div>
-
-      <Suspense fallback={<p>Loading package location...</p>}>
-        <Await
-          resolve={data.data}
-          errorElement={<p>Error loading package location!</p>}
-        >
-          {(data) => (
-            <p>Your package is at {JSON.stringify(data, null, 2)} lat and </p>
-          )}
-        </Await>
-      </Suspense>
     </div>
   );
 }

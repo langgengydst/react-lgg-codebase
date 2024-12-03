@@ -1,6 +1,5 @@
 import { Outlet } from "react-router";
 import DashboardLayout from "./layout";
-import { queryClient } from "@/providers/query-provider";
 import { BaseRouteObject } from "@/types/router";
 import { subRoutesWhatsapp } from "./pages";
 
@@ -23,15 +22,9 @@ export const routeWhatsapp = [
           {
             index: true,
             async lazy() {
-              const { WhatsappPage, whatsappLoader } = await import("./page");
+              const { WhatsappPage } = await import("./page");
 
               return {
-                loader: async ({ request }) => {
-                  const { data, filter } = whatsappLoader(queryClient, {
-                    request,
-                  });
-                  return { data, filter };
-                },
                 Component: WhatsappPage,
               };
             },
@@ -48,15 +41,9 @@ export const routeWhatsapp = [
           {
             index: true,
             async lazy() {
-              const { WhatsappPage, whatsappLoader } = await import("./page");
+              const { WhatsappPage } = await import("./page");
 
               return {
-                loader: async ({ request }) => {
-                  const { data, filter } = whatsappLoader(queryClient, {
-                    request,
-                  });
-                  return { data, filter };
-                },
                 Component: WhatsappPage,
               };
             },
