@@ -1,9 +1,13 @@
 import { queryOptions } from "@tanstack/react-query";
-import { MemberEditPayload, MemberFilter, MemberPayload } from "./model";
+import {
+  WhatsappBroadcastPayload,
+  WhatsappFilter,
+  WhatsappBroadcast,
+} from "./model";
 import { ServiceQueryArgs, ServiceQueryFn } from "@/types/service";
 
 const membersService = {
-  list: async (filters: MemberFilter) => {
+  list: async (filters: WhatsappFilter) => {
     await new Promise((resolve) => setTimeout(resolve, 5000));
     return {
       data: [filters, filters, filters],
@@ -11,11 +15,11 @@ const membersService = {
       success: true,
     };
   },
-  add: async (payload: MemberPayload) => {
+  add: async (payload: WhatsappBroadcast) => {
     await new Promise((resolve) => setTimeout(resolve, 5000));
-    return { id: 4, ...payload };
+    return payload;
   },
-  update: async (payload: MemberEditPayload) => {
+  update: async (payload: WhatsappBroadcastPayload) => {
     await new Promise((resolve) => setTimeout(resolve, 5000));
     return payload;
   },

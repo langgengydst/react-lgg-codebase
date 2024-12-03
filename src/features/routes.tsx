@@ -4,16 +4,17 @@ import {
   Outlet,
   redirect,
 } from "react-router";
-import { routeDashboard } from "./dashboard";
 import MainLayout from "./layout";
 import { routeLogin } from "./login";
 import { routePokemon } from "./pokemon";
+import { routeDashboard } from "./dashboard";
+import { routeWhatsapp } from "./whatsapp";
 
 const rootLoader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url);
   const isAuthorized = true;
   if (url.pathname === "/" && isAuthorized) {
-    return redirect("/dashboard/admin-dashboard");
+    return redirect("/dashboard");
   } else if (url.pathname === "/" && !isAuthorized) {
     return redirect("/login");
   }
@@ -31,7 +32,7 @@ export const routes = createBrowserRouter([
         <Outlet />
       </MainLayout>
     ),
-    children: [...routeDashboard, ...routePokemon],
+    children: [...routeDashboard, ...routeWhatsapp, ...routePokemon],
   },
   ...routeLogin,
 ]);

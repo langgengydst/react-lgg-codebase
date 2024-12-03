@@ -78,7 +78,7 @@ function SideBar() {
                               <SidebarMenuSubItem>
                                 <SidebarMenuSubButton asChild>
                                   <NavLink
-                                    className="aria-[current=page]:bg-[#E81255]"
+                                    className="aria-[current=page]:bg-[#ee7ca0]"
                                     key={child.id}
                                     to={relativePath}
                                   >
@@ -98,7 +98,7 @@ function SideBar() {
                           to={
                             route.path ?? (route.children?.[0].path as string)
                           }
-                          className="aria-[current=page]:bg-[#E81255]"
+                          className="aria-[current=page]:bg-[#ee7ca0]"
                         >
                           {route.handle?.menu}
                         </NavLink>

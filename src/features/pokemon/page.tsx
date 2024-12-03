@@ -46,6 +46,7 @@ export function PokemonPage() {
       <div className="flex gap-2 flex-wrap">
         {dummyData.map((_, i) => (
           <NavLink
+            key={i}
             to={`${i}`}
             className="p-4 rounded-md bg-pink-200 hover:cursor-pointer w-28 "
           >
