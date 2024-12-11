@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
@@ -13,7 +14,7 @@ const files = glob
   .sync("**/*.svg", {
     cwd: inputDir,
   })
-  .sort((a, b) => a.localeCompare(b));
+  .sort((a: string, b: any) => a.localeCompare(b));
 if (files.length === 0) {
   console.log(`No SVG files found in ${inputDirRelative}`);
   process.exit(0);
@@ -61,7 +62,9 @@ async function generateSvgSprite({
 }
 
 const typesContent = await generateTypes({
-  names: files.map((file) => JSON.stringify(file.replace(/\.svg$/, ""))),
+  names: files.map((file: string) =>
+    JSON.stringify(file.replace(/\.svg$/, "")),
+  ),
 });
 await writeIfChanged(
   path.join(outputDirTypes, "icon-sprites.d.ts"),
